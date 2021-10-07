@@ -1,13 +1,10 @@
 const { gql } = require("apollo-server-core");
 
 const typeDefs = gql`
-    type Book {
-        title: String
-        author: String
-    }
 
     type Query {
-        books: [Book]
+        GetPlanning(KeyAuth: String): Int
+        GetUserInfo(KeyAuth: String): Int
     }
 `
 
