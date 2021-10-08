@@ -1,5 +1,6 @@
 const { getModuleAll, getModuleDetails } = require("./intraApi/Module/GetModule");
 const { getPlanning } = require("./intraApi/Planning/getPlanning");
+const { getUserInfo } = require("./intraApi/UserInfo/GetInfo");
 
 const resolvers = {
     Query: {
@@ -11,6 +12,9 @@ const resolvers = {
         },
         GetModuleDetail: async (_, { KeyAuth, scolaryear, codemodule, codeinstance, codeActi }, { dataSources }) => {
             return getModuleDetails(KeyAuth, scolaryear, codemodule, codeinstance, codeActi)
+        },
+        GetUserInfo: async (_, {KeyAuth}, {dataSources}) => {
+            return getUserInfo(KeyAuth)
         }
     }
 };

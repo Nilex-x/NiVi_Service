@@ -1,6 +1,18 @@
 const { gql } = require("apollo-server-core");
 
 const typeDefs = gql`
+    type User {
+        login: String!,
+        lastname: String!,
+        firstname: String!,
+        picture: String,
+        semester: Int,
+        promo: Int,
+        studentyear: String,!
+        credits: Int!,
+        gpa: String!,
+        scolaryear: String!,
+    }
 
     type Module {
         title_module: String!
@@ -59,9 +71,9 @@ const typeDefs = gql`
 
     type Query {
         GetPlanning(KeyAuth: String!): Int
-        GetUserInfo(KeyAuth: String!): Int
         GetAllModule(KeyAuth: String!, start: String!, end: String!): [Module]!
         GetModuleDetail(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): moduleDetail!
+        GetUserInfo(KeyAuth: String!): User!
     }
 `
 
