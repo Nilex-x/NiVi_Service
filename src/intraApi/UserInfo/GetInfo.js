@@ -10,7 +10,6 @@ module.exports = {
         const url = `${process.env.API_INTRA}/${KeyAuth}/user?&format=json`;
         const response = await fetch(url)
         const data = await response.json()
-        console.log("data =>", data)
         if (data.message || data.error) {
             return {
                 login: "",
