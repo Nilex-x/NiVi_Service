@@ -124,6 +124,7 @@ const typeDefs = gql`
     }
 
     type Query {
+        GetLogin(KeyAuth: String!): Int!
         GetPlanning(KeyAuth: String!): Int
         GetAllModule(KeyAuth: String!, start: String!, end: String!): [Module]!
         GetModuleDetail(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): moduleDetail!

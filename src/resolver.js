@@ -2,6 +2,10 @@ const { getBoard } = require("./intraApi/Board/getBoard");
 const { getModuleAll, getModuleDetails } = require("./intraApi/Module/GetModule");
 const { getPlanning } = require("./intraApi/Planning/getPlanning");
 const { getUserInfo } = require("./intraApi/UserInfo/GetInfo");
+const { MongoClient } = require("mongodb");
+const uri = process.env.MONGO_URI
+
+const client = new MongoClient(uri);
 
 const resolvers = {
     Query: {

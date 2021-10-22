@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Nilex-x/NiVi_Service#readme",
   "dependencies": {
     "apollo-server": "^3.3.0",
-    "graphql": "^15.6.1"
+    "graphql": "^15.6.1",
+    "mongoose": "^6.0.12"
   }
 }
