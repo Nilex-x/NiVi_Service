@@ -34,23 +34,23 @@ const typeDefs = gql`
         promo: Int!
     }
     
-    type resp {
+    type Resp {
       title: String!,
       picture: String!
     }
 
     type activites {
-        codeacti: String!
-        module_title: String!
-        title: String!
-        description: String!
-        type_title: String!
-        end_register: String!
-        deadline: String!
-        end: String!
-        register: String!
-        id_projet: String!
-        project_title: String!
+        codeacti: String
+        module_title: String
+        title: String
+        description: String
+        type_title: String
+        end_register: String
+        deadline: String
+        end: String
+        register: String
+        id_projet: String
+        project_title: String
     }
 
     type moduleDetail {
@@ -61,7 +61,7 @@ const typeDefs = gql`
         credits: Int!
         description: String!
         competence: String!
-        resp: [resp!]!
+        resp: [Resp!]!
         allow_register: String
         color: String
         activites: [activites!]!
@@ -123,10 +123,80 @@ const typeDefs = gql`
         historys: [History!]
     }
 
+    type Planning {
+        scolaryear: String!
+        codemodule: String!
+        codeinstance: String!
+        codeacti: String!
+        codeevent: String
+        semester: Int
+        titlemodule: String
+        acti_title: String
+        start: String
+        end: String
+        total_students_registered: Int
+        title: String
+        type_title: String
+        type_code: String
+        is_rdv: String
+        nb_hours: String
+        allowed_planning_start: String
+        allowed_planning_end: String
+        nb_group: Int
+        nb_max_students_projet: Int
+        salle: String
+        nb_seat: String
+        module_available: Boolean,
+        module_registered: Boolean,
+        past: Boolean,
+        allow_register: Boolean,
+        event_registered: Boolean,
+        project: Boolean,
+    }
+
+    type EventType {
+        code: String,
+        seats: String,
+        title:  String,
+        description: String,
+        nb_inscrits: String,
+        begin: String,
+        end: String,
+        location: String,
+        user_status: String,
+        resp: [Resp!]
+    }
+
+    type ActiType {
+        module_title: String!,
+        title: String!,
+        description: String,
+        type_title: String,
+        type_code: String,
+        begin: String,
+        start: String,
+        end_register: String,
+        deadline: String,
+        end: String,
+        nb_hours: String,
+        nb_group: Int,
+        num: Int
+        register:  Boolean,
+        is_projet: Boolean,
+        is_note: Boolean,
+        nb_notes: String,
+        rdv_status: String,
+        archive: String,
+        nb_planified: Int,
+        student_registered: Int,
+        events: [EventType!]
+    }
+
     type Query {
-        GetPlanning(KeyAuth: String!): Int
+        GetPlanning(KeyAuth: String!): [Planning]
         GetAllModule(KeyAuth: String!, start: String!, end: String!): [Module]!
         GetModuleDetail(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): moduleDetail!
+        GetActiDetail(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): ActiType!
         GetUserInfo(KeyAuth: String!): User!
         GetBoard(KeyAuth: String!): Board!
     }
