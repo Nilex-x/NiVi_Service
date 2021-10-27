@@ -136,7 +136,7 @@ module.exports = {
             rdv_status: data.rdv_status,
             archive: data.archibe,
             nb_planified: data.nb_planified,
-            register: data.student_registered.registered == "1" ? true: false,
+            register: (data.student_registered && data.student_registered.registered == "1") ? true: false,
             events: getEvents(data.events)
         }
         return ActiDetail;
