@@ -60,18 +60,6 @@ module.exports = {
             };
         }
 
-        const users = await userModel.find({ login: data.login })
-
-        if (users.length == 0) {
-            const user = new userModel({
-                _id: GenerateId(),
-                login: data.login,
-                lastname: data.lastname,
-                firstname: data.firstname,
-            })
-            await user.save()
-        }
-
         return {
             login: data.login,
             lastname: data.lastname,

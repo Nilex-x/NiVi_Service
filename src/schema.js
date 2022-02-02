@@ -100,7 +100,7 @@ const typeDefs = gql`
         timeline_start: String!
         timeline_end: String!
         timeline_barre: Float!
-        salle: String!
+        salle: String
         registerLink: String!
     }
 
