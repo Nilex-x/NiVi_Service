@@ -2,6 +2,7 @@ const fetch = require('node-fetch')
 
 const getProject = (projects) => {
     const newProject = projects.map(project => {
+        console.log("project =>", project)
         const linkClear = project.title_link.replace("\\/", ' ')
         const startProjet = project.timeline_start.replace('\\', '')
         const arrayStart = startProjet.split(',')

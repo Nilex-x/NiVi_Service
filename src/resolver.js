@@ -1,11 +1,7 @@
 const { getBoard } = require("./intraApi/Board/getBoard");
-const { getModuleAll, getModuleDetails, getActiDetails } = require("./intraApi/Module/GetModule");
-const { getPlanning } = require("./intraApi/Planning/getPlanning");
+const { getModuleAll, getModuleDetails, getActiDetails, getProjectDetails } = require("./intraApi/Module/GetModule");
+const { getPlanning, getDayEvents } = require("./intraApi/Planning/getPlanning");
 const { getUserInfo, LoginUser } = require("./intraApi/UserInfo/GetInfo");
-const { MongoClient } = require("mongodb");
-const uri = process.env.MONGO_URI
-
-const client = new MongoClient(uri);
 
 const resolvers = {
     Query: {
@@ -15,6 +11,9 @@ const resolvers = {
         GetPlanning: async (_, { KeyAuth }, { dataSources }) => {
             return getPlanning(KeyAuth);
         },
+        GetDayEvent: async (_, { KeyAuth, start, end }, { dataSources }) => {
+            return getDayEvents(KeyAuth, start, end);
+        },
         GetActiDetail: async (_, { KeyAuth, scolaryear, codemodule, codeinstance, codeActi }, { dataSources }) => {
             return getActiDetails(KeyAuth, scolaryear, codemodule, codeinstance, codeActi)
         },
@@ -23,6 +22,9 @@ const resolvers = {
         },
         GetModuleDetail: async (_, { KeyAuth, scolaryear, codemodule, codeinstance, codeActi }, { dataSources }) => {
             return getModuleDetails(KeyAuth, scolaryear, codemodule, codeinstance, codeActi);
+        },
+        GetProjectDetails: async (_, { KeyAuth, scolaryear, codemodule, codeinstance, codeActi }, { dataSources }) => {
+            return getProjectDetails(KeyAuth, scolaryear, codemodule, codeinstance, codeActi);
         },
         GetUserInfo: async (_, { KeyAuth }, { dataSources }) => {
             return getUserInfo(KeyAuth);

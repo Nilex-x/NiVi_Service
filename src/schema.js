@@ -28,10 +28,10 @@ const typeDefs = gql`
     }
 
     type Student {
-        login: String!
-        name: String!
-        picture: String!
-        promo: Int!
+        login: String
+        name: String
+        picture: String
+        promo: Int
     }
     
     type Resp {
@@ -192,6 +192,20 @@ const typeDefs = gql`
         events: [EventType!]
     }
 
+    type Project {
+        scolaryear: String!
+        codemodule: String!
+        codeinstance: String!
+        codeacti: String!
+        begin: String,
+        start: String,
+        end: String,
+        register: Boolean,
+        title: String!,
+        description: String,
+        registered: [Student!]
+    }
+
     type Query {
         Login(KeyAuth: String!): User!
         GetAllModule(KeyAuth: String!, start: String!, end: String!): [Module]!
@@ -199,7 +213,9 @@ const typeDefs = gql`
         GetActiDetail(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): ActiType!
         GetUserInfo(KeyAuth: String!): User!
         GetBoard(KeyAuth: String!): Board!
+        GetProjectDetails(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): Project!
         GetPlanning(KeyAuth: String!): [Planning]!
+        GetDayEvent(KeyAuth: String!, start: String!, end: String!): [Planning]!
     }
 `
 

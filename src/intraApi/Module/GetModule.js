@@ -1,5 +1,10 @@
 const fetch = require('node-fetch')
 
+const getPictureUrl = (fakeUrl, KeyAuth) => {
+    const cleanUrl = fakeUrl.replace("\\", "")
+    return (`${process.env.API_INTRA}/${KeyAuth}${cleanUrl}`)
+}
+
 const getModuleUserRegister = async (KeyAuth, scolaryear, codemodule, codeinstance) => {
     const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}/registered?&format=json`;
     const response = await fetch(url)
@@ -15,6 +20,20 @@ const getModuleUserRegister = async (KeyAuth, scolaryear, codemodule, codeinstan
             })
         })
     }
+    return allStudent;
+}
+
+const getUserRegister = async (users, KeyAuth) => {
+    const allStudent = []
+    console.log("nice =>", users)
+    users.map(student => {
+        allStudent.push({
+            login: student.master.login,
+            picture: student.master.picture ? getPictureUrl(student.master.picture, KeyAuth) : "",
+            name: student.master.title,
+            promo: student.master.promo,
+        })
+    })
     return allStudent;
 }
 
@@ -48,15 +67,19 @@ const getAssit = (assists) => {
 
 const getEvents = (events) => {
     const value = events.map(event => {
-        const arraySalle = event.location.split('/')
+        console.log(events, event);
+        let arraySalle = ""
+        if (event.location) {
+            arraySalle = event.location.split('/')
+        }
         return {
             code: event.code,
             seats: event.seats,
             title: event.title,
             description: event.description,
             nb_inscrits: event.nb_inscrits,
-            begin: event.begin,
-            end: event.end,
+            begin: event.begin.split(' ')[0] + "T" + event.begin.split(' ')[1],
+            end: event.end.split(' ')[0] + "T" + event.end.split(' ')[1],
             location: arraySalle[arraySalle.length - 1],
             user_status: event.user_status,
             resp: getAssit(event.assistants)
@@ -90,6 +113,25 @@ module.exports = {
             return []
         }
         return returnArray;
+    },
+    getProjectDetails: async (KeyAuth, scolaryear, codemodule, codeinstance, codeActi) => {
+        const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}/${codeActi}/project/?&format=json`;
+        const response = await fetch(url)
+        const data = await response.json()
+        const projectDetails = {
+            scolaryear: data.scolaryear,
+            codemodule: data.codemodule,
+            codeinstance: data.codeinstance,
+            codeacti: data.codeacti,
+            begin: data.begin,
+            start: data.start,
+            end: data.end,
+            register: data.register,
+            title: data.title,
+            description: data.description,
+            registered: getUserRegister(data.registered, KeyAuth)
+        }
+        return projectDetails;
     },
     getModuleDetails: async (KeyAuth, scolaryear, codemodule, codeinstance, codeActi) => {
         const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}?&format=json`;
@@ -136,7 +178,7 @@ module.exports = {
             rdv_status: data.rdv_status,
             archive: data.archibe,
             nb_planified: data.nb_planified,
-            register: (data.student_registered && data.student_registered.registered == "1") ? true: false,
+            register: (data.student_registered && data.student_registered.registered == "1") ? true : false,
             events: getEvents(data.events)
         }
         return ActiDetail;
