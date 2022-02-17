@@ -164,6 +164,7 @@ const typeDefs = gql`
         end: String,
         location: String,
         user_status: String,
+        registed: Boolean!,
         resp: [Resp!]
     }
 
@@ -188,7 +189,6 @@ const typeDefs = gql`
         rdv_status: String,
         archive: String,
         nb_planified: Int,
-        student_registered: Int,
         events: [EventType!]
     }
 
@@ -216,6 +216,13 @@ const typeDefs = gql`
         GetProjectDetails(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): Project!
         GetPlanning(KeyAuth: String!): [Planning]!
         GetDayEvent(KeyAuth: String!, start: String!, end: String!): [Planning]!
+    }
+
+    type Mutation {
+        RegisterActi(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String!, codeEvent: String!): String!
+        UnregisterActi(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String!, codeEvent: String!): String!
+        RegisterProject(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String!): String!
+        UnregisterProject(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String!): String!
     }
 `
 

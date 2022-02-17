@@ -1,6 +1,6 @@
 const { getBoard } = require("./intraApi/Board/getBoard");
-const { getModuleAll, getModuleDetails, getActiDetails, getProjectDetails } = require("./intraApi/Module/GetModule");
-const { getPlanning, getDayEvents } = require("./intraApi/Planning/getPlanning");
+const { getModuleAll, getModuleDetails, getActiDetails, getProjectDetails, UnregisterProject } = require("./intraApi/Module/GetModule");
+const { getPlanning, getDayEvents, RegisterActi, UnregisterActi } = require("./intraApi/Planning/getPlanning");
 const { getUserInfo, LoginUser } = require("./intraApi/UserInfo/GetInfo");
 
 const resolvers = {
@@ -31,6 +31,21 @@ const resolvers = {
         },
         GetBoard: async (_, { KeyAuth }, { dataSources }) => {
             return getBoard(KeyAuth);
+        }
+    },
+
+    Mutation: {
+        RegisterActi: async (_, { KeyAuth, scolaryear, codemodule, codeinstance, codeActi, codeEvent }, { dataSources }) => {
+            return RegisterActi(KeyAuth, scolaryear, codemodule, codeinstance, codeActi, codeEvent);
+        },
+        UnregisterActi: async (_, { KeyAuth, scolaryear, codemodule, codeinstance, codeActi, codeEvent }, { dataSources }) => {
+            return UnregisterActi(KeyAuth, scolaryear, codemodule, codeinstance, codeActi, codeEvent);
+        },
+        RegisterProject: async (_, { KeyAuth, scolaryear, codemodule, codeinstance, codeActi }, { dataSources }) => {
+            return "Not Done";
+        },
+        UnregisterProject: async (_, { KeyAuth, scolaryear, codemodule, codeinstance, codeActi }, { dataSources }) => {
+            return UnregisterProject(KeyAuth, scolaryear, codemodule, codeinstance, codeActi);
         }
     }
 };

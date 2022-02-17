@@ -25,7 +25,7 @@ const getModuleUserRegister = async (KeyAuth, scolaryear, codemodule, codeinstan
 
 const getUserRegister = async (users, KeyAuth) => {
     const allStudent = []
-    console.log("nice =>", users)
+    // console.log("nice =>", users)
     users.map(student => {
         allStudent.push({
             login: student.master.login,
@@ -67,7 +67,7 @@ const getAssit = (assists) => {
 
 const getEvents = (events) => {
     const value = events.map(event => {
-        console.log(events, event);
+        // console.log(events, event);
         let arraySalle = ""
         if (event.location) {
             arraySalle = event.location.split('/')
@@ -76,6 +76,7 @@ const getEvents = (events) => {
             code: event.code,
             seats: event.seats,
             title: event.title,
+            registed: event.already_register ? true : false,
             description: event.description,
             nb_inscrits: event.nb_inscrits,
             begin: event.begin.split(' ')[0] + "T" + event.begin.split(' ')[1],
@@ -158,6 +159,7 @@ module.exports = {
         const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}/${codeActi}?&format=json`;
         const response = await fetch(url)
         const data = await response.json()
+        console.log("acti details =>", data);
         const ActiDetail = {
             module_title: data.module_title,
             title: data.title,
@@ -178,9 +180,34 @@ module.exports = {
             rdv_status: data.rdv_status,
             archive: data.archibe,
             nb_planified: data.nb_planified,
-            register: (data.student_registered && data.student_registered.registered == "1") ? true : false,
             events: getEvents(data.events)
         }
         return ActiDetail;
+    },
+    RegisterProject: async (KeyAuth, scolaryear, codemodule, codeinstance, codeActi, codeEvent) => {
+        const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}/${codeActi}/${codeEvent}/register?&format=json`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        // console.log("Register data =>", data);
+
+        if (data.error) {
+            return ("Already register");
+        } else {
+            return ("Register");
+        }
+    },
+    UnregisterProject: async (KeyAuth, scolaryear, codemodule, codeinstance, codeActi, codeEvent) => {
+        const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}/${codeActi}/${codeEvent}/project/destroygroup?&format=json`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        // console.log("Unregister data =>", data);
+
+        if (data.error) {
+            return ("Already register");
+        } else {
+            return ("Register");
+        }
     }
 }

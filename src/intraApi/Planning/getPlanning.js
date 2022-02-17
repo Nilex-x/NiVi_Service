@@ -21,7 +21,6 @@ module.exports = {
         const url = `${process.env.API_INTRA}/${KeyAuth}/planning/load?&format=json`;
         const response = await fetch(url)
         const data = await response.json()
-        //console.log(data)
         if (data.length > 0) {
             const value = data.map(planning => {
                 return {
@@ -104,5 +103,33 @@ module.exports = {
     },
     getMyPlannig: (KeyAuth) => {
         const url = `${process.env.API_INTRA}${KeyAuth}/planing/my-schedules`; // not good path
+    },
+    RegisterActi: async (KeyAuth, scolaryear, codemodule, codeinstance, codeActi, codeEvent) => {
+        const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}/${codeActi}/${codeEvent}/register?&format=json`;
+        const response = await fetch(url, { method: 'post', headers: {'Content-Type': 'application/json'} });
+        const data = await response.json();
+
+        console.log("response =>", data);
+
+
+        if (data.error) {
+            return ("Already register");
+        } else {
+            return ("Register");
+        }
+    },
+    UnregisterActi: async (KeyAuth, scolaryear, codemodule, codeinstance, codeActi, codeEvent) => {
+        const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}/${codeActi}/${codeEvent}/unregister?&format=json`;
+        console.log(url);
+        const response = await fetch(url, { method: 'post', headers: {'Content-Type': 'application/json'} });
+        const data = await response.json();
+
+        console.log("response =>", data);
+
+        if (data.error) {
+            return ("Already unregister");
+        } else {
+            return ("Unregister");
+        }
     }
 }
