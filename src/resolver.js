@@ -20,8 +20,8 @@ const resolvers = {
         GetAllModule: async (_, { KeyAuth, start, end }, { dataSources }) => {
             return getModuleAll(KeyAuth, start, end);
         },
-        GetModuleDetail: async (_, { KeyAuth, scolaryear, codemodule, codeinstance, codeActi }, { dataSources }) => {
-            return getModuleDetails(KeyAuth, scolaryear, codemodule, codeinstance, codeActi);
+        GetModuleDetail: async (_, { KeyAuth, scolaryear, codemodule, codeinstance }, { dataSources }) => {
+            return getModuleDetails(KeyAuth, scolaryear, codemodule, codeinstance);
         },
         GetProjectDetails: async (_, { KeyAuth, scolaryear, codemodule, codeinstance, codeActi }, { dataSources }) => {
             return getProjectDetails(KeyAuth, scolaryear, codemodule, codeinstance, codeActi);

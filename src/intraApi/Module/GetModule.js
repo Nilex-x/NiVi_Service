@@ -98,6 +98,7 @@ module.exports = {
         const url = `https://intra.epitech.eu/${KeyAuth}/course/filter?format=json&location%5B%5D=${loc[0]}&location%5B%5D=${loc[0]}%2F${loc[1]}&course%5B%5D=${cou[0]}%2F${cou[1]}&scolaryear%5B%5D=${scolaryear}`;
         const response = await fetch(url);
         const data = await response.json();
+        console.log("data =>", data)
         const modules = data.map(element => ({
             semester: element.semester,
             begin: element.begin,
@@ -157,7 +158,7 @@ module.exports = {
         }
         return projectDetails;
     },
-    getModuleDetails: async (KeyAuth, scolaryear, codemodule, codeinstance, codeActi) => {
+    getModuleDetails: async (KeyAuth, scolaryear, codemodule, codeinstance) => {
         const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}?&format=json`;
         const response = await fetch(url)
         const data = await response.json()
@@ -174,7 +175,7 @@ module.exports = {
             color: data.color,
             activites: data.activites,
             studentRegistered: getModuleUserRegister(KeyAuth, scolaryear, codemodule, codeinstance),
-            file: codeActi ? await getFile(KeyAuth, scolaryear, codemodule, codeinstance, codeActi) : []
+            file: [] // codeActi ? await getFile(KeyAuth, scolaryear, codemodule, codeinstance)
         }
         return projectDetail;
     },
@@ -182,7 +183,6 @@ module.exports = {
         const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}/${codeActi}?&format=json`;
         const response = await fetch(url)
         const data = await response.json()
-        console.log("acti details =>", data);
         const ActiDetail = {
             module_title: data.module_title,
             title: data.title,

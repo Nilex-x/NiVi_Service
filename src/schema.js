@@ -224,7 +224,7 @@ const typeDefs = gql`
     type Query {
         Login(KeyAuth: String!): User!
         GetAllModule(KeyAuth: String!, start: String!, end: String!): [Module]!
-        GetModuleDetail(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): moduleDetail!
+        GetModuleDetail(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!): moduleDetail!
         GetActiDetail(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): ActiType!
         GetUserInfo(KeyAuth: String!): User!
         GetBoard(KeyAuth: String!): Board!
