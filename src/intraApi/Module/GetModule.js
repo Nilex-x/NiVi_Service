@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { getUserInfo } = require('../UserInfo/GetInfo')
 
 const getPictureUrl = (fakeUrl, KeyAuth) => {
     const cleanUrl = fakeUrl.replace("\\", "")
@@ -90,6 +91,28 @@ const getEvents = (events) => {
 }
 
 module.exports = {
+    getModules: async (KeyAuth) => {
+        const { scolaryear, location, course } = await getUserInfo(KeyAuth)
+        const loc = location.split('/');
+        const cou = course.split('/');
+        const url = `https://intra.epitech.eu/${KeyAuth}/course/filter?format=json&location%5B%5D=${loc[0]}&location%5B%5D=${loc[0]}%2F${loc[1]}&course%5B%5D=${cou[0]}%2F${cou[1]}&scolaryear%5B%5D=${scolaryear}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        const modules = data.map(element => ({
+            semester: element.semester,
+            begin: element.begin,
+            end: element.end,
+            scolaryear: element.scolaryear,
+            code: element.code,
+            codeinstance: element.codeinstance,
+            status: element.status,
+            title: element.title,
+            credits: element.credits,
+            open: element.open
+        })
+        );
+        return modules;
+    },
     getModuleAll: async (KeyAuth, start, end) => {
         const url = `${process.env.API_INTRA}/${KeyAuth}/module/board?&format=json&start=${start}&end=${end}`;
         const response = await fetch(url)

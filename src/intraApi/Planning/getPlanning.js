@@ -120,7 +120,7 @@ module.exports = {
     },
     UnregisterActi: async (KeyAuth, scolaryear, codemodule, codeinstance, codeActi, codeEvent) => {
         const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}/${codeActi}/${codeEvent}/unregister?&format=json`;
-        console.log(url);
+        // console.log(url);
         const response = await fetch(url, { method: 'post', headers: {'Content-Type': 'application/json'} });
         const data = await response.json();
 

@@ -1,5 +1,5 @@
 const { getBoard } = require("./intraApi/Board/getBoard");
-const { getModuleAll, getModuleDetails, getActiDetails, getProjectDetails, UnregisterProject } = require("./intraApi/Module/GetModule");
+const { getModuleAll, getModuleDetails, getActiDetails, getProjectDetails, UnregisterProject, getModules } = require("./intraApi/Module/GetModule");
 const { getPlanning, getDayEvents, RegisterActi, UnregisterActi } = require("./intraApi/Planning/getPlanning");
 const { getUserInfo, LoginUser } = require("./intraApi/UserInfo/GetInfo");
 
@@ -31,6 +31,9 @@ const resolvers = {
         },
         GetBoard: async (_, { KeyAuth }, { dataSources }) => {
             return getBoard(KeyAuth);
+        },
+        GetModules: async (_ , { KeyAuth }, { dataSources }) => {
+            return getModules(KeyAuth);
         }
     },
 

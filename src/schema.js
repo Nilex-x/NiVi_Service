@@ -12,6 +12,8 @@ const typeDefs = gql`
         credits: Int!,
         gpa: String!,
         scolaryear: String!,
+        location: String!,
+        course: String!
     }
 
     type Module {
@@ -206,6 +208,19 @@ const typeDefs = gql`
         registered: [Student!]
     }
 
+    type Modules {
+        semester: Int
+        begin: String!
+        end: String!
+        scolaryear: String!
+        code: String!
+        codeinstance: String!
+        status: String!
+        title: String!
+        credits: String!
+        open: String!
+    }
+
     type Query {
         Login(KeyAuth: String!): User!
         GetAllModule(KeyAuth: String!, start: String!, end: String!): [Module]!
@@ -216,6 +231,7 @@ const typeDefs = gql`
         GetProjectDetails(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): Project!
         GetPlanning(KeyAuth: String!): [Planning]!
         GetDayEvent(KeyAuth: String!, start: String!, end: String!): [Planning]!
+        GetModules(KeyAuth: String!): [Modules]!
     }
 
     type Mutation {

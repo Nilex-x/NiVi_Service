@@ -20,6 +20,7 @@ module.exports = {
         const url = `${process.env.API_INTRA}/${KeyAuth}/user?&format=json`;
         const response = await fetch(url)
         const data = await response.json()
+        // console.log("userInfo =>", data);
         if (data.message || data.error) {
             return {
                 login: "",
@@ -32,6 +33,8 @@ module.exports = {
                 credits: 0,
                 gpa: "",
                 scolaryear: "",
+                location: "",
+                course: "",
             };
         }
         return {
@@ -45,6 +48,8 @@ module.exports = {
             credits: data.credits,
             gpa: data.gpa[0].gpa,
             scolaryear: data.scolaryear,
+            location: data.location,
+            course: data.course_code
         };
     },
     LoginUser: async (KeyAuth) => {
