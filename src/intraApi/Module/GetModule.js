@@ -98,7 +98,7 @@ module.exports = {
         const url = `https://intra.epitech.eu/${KeyAuth}/course/filter?format=json&location%5B%5D=${loc[0]}&location%5B%5D=${loc[0]}%2F${loc[1]}&course%5B%5D=${cou[0]}%2F${cou[1]}&scolaryear%5B%5D=${scolaryear}`;
         const response = await fetch(url);
         const data = await response.json();
-        console.log("data =>", data)
+        //console.log("data =>", data)
         const modules = data.map(element => ({
             semester: element.semester,
             begin: element.begin,
@@ -110,14 +110,13 @@ module.exports = {
             title: element.title,
             credits: element.credits,
             open: element.open
-        })
-        );
+        }));
         return modules;
     },
     getModuleAll: async (KeyAuth, start, end) => {
         const url = `${process.env.API_INTRA}/${KeyAuth}/module/board?&format=json&start=${start}&end=${end}`;
         const response = await fetch(url)
-        const data = await response.json()
+        const data = response.json()
         const returnArray = []
         if (data.length > 0) {
             data.map(module => {
@@ -162,20 +161,20 @@ module.exports = {
         const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}?&format=json`;
         const response = await fetch(url)
         const data = await response.json()
+        console.log(data.activites[0])
         const projectDetail = {
             title: data.title,
             end_register: data.end_register,
             closed: data.closed,
             opened: data.opened,
             credits: data.credits,
-            description: data.description,
-            competence: data.competence,
+            description: (data.description ? data.description : ""),
             resp: data.resp,
             allow_register: data.allow_register,
             color: data.color,
             activites: data.activites,
             studentRegistered: getModuleUserRegister(KeyAuth, scolaryear, codemodule, codeinstance),
-            file: [] // codeActi ? await getFile(KeyAuth, scolaryear, codemodule, codeinstance)
+            file: [], // codeActi ? await getFile(KeyAuth, scolaryear, codemodule, codeinstance)
         }
         return projectDetail;
     },

@@ -20,7 +20,6 @@ module.exports = {
         const url = `${process.env.API_INTRA}/${KeyAuth}/user?&format=json`;
         const response = await fetch(url)
         const data = await response.json()
-        // console.log("userInfo =>", data);
         if (data.message || data.error) {
             return {
                 login: "",
@@ -61,7 +60,6 @@ module.exports = {
                 login: "",
                 lastname: "",
                 firstname: "",
-                semester: 0,
             };
         }
 
@@ -69,7 +67,20 @@ module.exports = {
             login: data.login,
             lastname: data.lastname,
             firstname: data.firstname,
-            studentyear: data.studentyear,
         };
+    },
+    getMarks: async (KeyAuth, login, scolaryear, codeModule) => {
+        const url = `${process.env.API_INTRA}/${KeyAuth}/user/${login}/notes?&format=json`;
+        var data = await fetch(url, { method: 'GET' }).then(res => res.json())
+        if (data.message || data.error) {
+            return {
+                module: [],
+                marks: []
+            }
+        }
+        return {
+            module: data.modules.filter(element => (scolaryear ? element.scolaryear == scolaryear : 1) && (codeModule ?  element.codemodule == codeModule : 1 )),
+            marks: data.notes.filter(element =>  (scolaryear ? element.scolaryear == scolaryear : 1) && (codeModule ?  element.codemodule == codeModule : 1 ))
+        }
     }
 }

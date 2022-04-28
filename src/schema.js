@@ -1,7 +1,7 @@
 const { gql } = require("apollo-server-core");
 
 const typeDefs = gql`
-    type User {
+    type UserAll {
         login: String!,
         lastname: String!,
         firstname: String!,
@@ -14,6 +14,12 @@ const typeDefs = gql`
         scolaryear: String!,
         location: String!,
         course: String!
+    }
+
+    type User {
+        login: String!,
+        lastname: String!,
+        firstname: String!
     }
 
     type Module {
@@ -35,10 +41,10 @@ const typeDefs = gql`
         picture: String
         promo: Int
     }
-    
+
     type Resp {
       title: String!,
-      picture: String!
+      picture: String
     }
 
     type activites {
@@ -47,6 +53,7 @@ const typeDefs = gql`
         title: String
         description: String
         type_title: String
+        type_code: String
         end_register: String
         deadline: String
         end: String
@@ -61,14 +68,13 @@ const typeDefs = gql`
         closed: String!
         opened: String!
         credits: Int!
-        description: String!
-        competence: String!
+        description: String
         resp: [Resp!]!
         allow_register: String
         color: String
-        activites: [activites!]!
-        studentRegistered: [Student]!
-        file: [String!]!
+        activites: [activites!]
+        studentRegistered: [Student]
+        file: [String!]
     }
 
     type Projects {
@@ -81,7 +87,7 @@ const typeDefs = gql`
         timeline_end: String!
         timeline_barre: Float!
     }
-    
+
     type Notes {
         title: String!
         code_acti: String!
@@ -221,16 +227,45 @@ const typeDefs = gql`
         open: String!
     }
 
+    type MarkModules {
+        scolaryear: String!,
+        codemodule: String!,
+        codeinstance: String!,
+        title: String!,
+        date_ins: String,
+        grade: String!,
+        credits: Int!,
+    }
+
+    type Marks {
+        scolaryear: String!,
+        codemodule: String!,
+        titlemodule: String!,
+        codeinstance: String!,
+        codeacti: String!,
+        title: String!,
+        date: String!,
+        correcteur: String,
+        final_note: Float!,
+        comment: String
+    }
+
+    type MarksReturn {
+        module: [MarkModules!],
+        marks: [Marks!]
+    }
+
     type Query {
         Login(KeyAuth: String!): User!
+        GetMarks(KeyAuth: String!, scolaryear: String, codeModule: String): MarksReturn!
         GetAllModule(KeyAuth: String!, start: String!, end: String!): [Module]!
         GetModuleDetail(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!): moduleDetail!
         GetActiDetail(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): ActiType!
-        GetUserInfo(KeyAuth: String!): User!
+        GetUserInfo(KeyAuth: String!): UserAll!
         GetBoard(KeyAuth: String!): Board!
         GetProjectDetails(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): Project!
         GetPlanning(KeyAuth: String!): [Planning]!
-        GetDayEvent(KeyAuth: String!, start: String!, end: String!): [Planning]!
+        GetDayEvent(KeyAuth: String!, start: String!, country: String!, city: String!): [Planning]!
         GetModules(KeyAuth: String!): [Modules]!
     }
 

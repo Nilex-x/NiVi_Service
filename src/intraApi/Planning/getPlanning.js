@@ -59,11 +59,11 @@ module.exports = {
         }
         return 1;
     },
-    getDayEvents: async (KeyAuth, start, end) => {
-        const url = `${process.env.API_INTRA}/${KeyAuth}/planning/load?&format=json&start=${start}&end=${end}`;
+    getDayEvents: async (KeyAuth, start, country, city) => {
+        console.log("country", country, "city", city)
+        const url = `${process.env.API_INTRA}/${KeyAuth}/planning/load?&format=json&start=${start}&end=${start}&location%5B%5D=${country}%2F${city}`;
         const response = await fetch(url)
         const data = await response.json()
-        //console.log(data)
         if (data.length > 0) {
             const value = data.map(planning => {
                 return {

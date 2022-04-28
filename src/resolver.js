@@ -1,18 +1,21 @@
 const { getBoard } = require("./intraApi/Board/getBoard");
 const { getModuleAll, getModuleDetails, getActiDetails, getProjectDetails, UnregisterProject, getModules } = require("./intraApi/Module/GetModule");
 const { getPlanning, getDayEvents, RegisterActi, UnregisterActi } = require("./intraApi/Planning/getPlanning");
-const { getUserInfo, LoginUser } = require("./intraApi/UserInfo/GetInfo");
+const { getUserInfo, LoginUser, getMarks } = require("./intraApi/UserInfo/GetInfo");
 
 const resolvers = {
     Query: {
         Login: async (_, { KeyAuth }, { dataSources }) => {
             return LoginUser(KeyAuth)
         },
+        GetMarks: async (_, { KeyAuth, scolaryear, codeModule }, { dataSources }) => {
+            return getMarks(KeyAuth, (await LoginUser(KeyAuth)).login, scolaryear, codeModule)
+        },
         GetPlanning: async (_, { KeyAuth }, { dataSources }) => {
             return getPlanning(KeyAuth);
         },
-        GetDayEvent: async (_, { KeyAuth, start, end }, { dataSources }) => {
-            return getDayEvents(KeyAuth, start, end);
+        GetDayEvent: async (_, { KeyAuth, start, country, city }, { dataSources }) => {
+            return getDayEvents(KeyAuth, start, country, city);
         },
         GetActiDetail: async (_, { KeyAuth, scolaryear, codemodule, codeinstance, codeActi }, { dataSources }) => {
             return getActiDetails(KeyAuth, scolaryear, codemodule, codeinstance, codeActi)
