@@ -34,6 +34,7 @@ module.exports = {
                 scolaryear: "",
                 location: "",
                 course: "",
+                averageLogTime: 0
             };
         }
         return {
@@ -48,7 +49,8 @@ module.exports = {
             gpa: data.gpa[0].gpa,
             scolaryear: data.scolaryear,
             location: data.location,
-            course: data.course_code
+            course: data.course_code,
+            averageLogTime: data.nsstat.active / data.nsstat.nslog_norm,
         };
     },
     LoginUser: async (KeyAuth) => {
@@ -69,7 +71,7 @@ module.exports = {
             firstname: data.firstname,
         };
     },
-    getMarks: async (KeyAuth, login, scolaryear, codeModule) => {
+    getMarks: async (KeyAuth, login) => {
         const url = `${process.env.API_INTRA}/${KeyAuth}/user/${login}/notes?&format=json`;
         var data = await fetch(url, { method: 'GET' }).then(res => res.json())
         if (data.message || data.error) {
@@ -78,9 +80,16 @@ module.exports = {
                 marks: []
             }
         }
-        return {
-            module: data.modules.filter(element => (scolaryear ? element.scolaryear == scolaryear : 1) && (codeModule ?  element.codemodule == codeModule : 1 )),
-            marks: data.notes.filter(element =>  (scolaryear ? element.scolaryear == scolaryear : 1) && (codeModule ?  element.codemodule == codeModule : 1 ))
-        }
+        const userHistorys = data.modules.map(element => element.scolaryear)
+        const userHistory = userHistorys.filter((v, i) => userHistorys.indexOf(v) === i)
+        const modules = []
+        userHistory.forEach(element => {
+            const module = data.modules.filter(mod => mod.scolaryear == element)
+            const notes = data.notes.filter(not => not.scolaryear == element);
+            const semester = [... new Set(module.map(v1 => parseInt(v1.codeinstance.split('-')[1])).sort((a, b) => a - b))]
+            modules.push({semester: `semester ${semester[0] + "/" + semester[1]}`, notes: notes.filter(v1 => v1.codeinstance.split('-')[1] == semester[0] || v1.codeinstance.split('-')[1] == semester[1]), modules: module.filter(v1 => v1.codeinstance.split('-')[1] == semester[0] || v1.codeinstance.split('-')[1] == semester[1])})
+            modules.push({semester: `semester ${semester[2]}`, notes: notes.filter(v1 => v1.codeinstance.split('-')[1] == semester[2]), modules: module.filter(v1 => v1.codeinstance.split('-')[1] == semester[2])})
+        })
+        return modules
     }
 }

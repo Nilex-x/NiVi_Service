@@ -60,7 +60,6 @@ module.exports = {
         return 1;
     },
     getDayEvents: async (KeyAuth, start, country, city) => {
-        console.log("country", country, "city", city)
         const url = `${process.env.API_INTRA}/${KeyAuth}/planning/load?&format=json&start=${start}&end=${start}&location%5B%5D=${country}%2F${city}`;
         const response = await fetch(url)
         const data = await response.json()
@@ -109,7 +108,7 @@ module.exports = {
         const response = await fetch(url, { method: 'post', headers: {'Content-Type': 'application/json'} });
         const data = await response.json();
 
-        console.log("response =>", data);
+        console.log("respx  onse =>", data);
 
 
         if (data.error) {

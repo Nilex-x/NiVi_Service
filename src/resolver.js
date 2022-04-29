@@ -8,8 +8,8 @@ const resolvers = {
         Login: async (_, { KeyAuth }, { dataSources }) => {
             return LoginUser(KeyAuth)
         },
-        GetMarks: async (_, { KeyAuth, scolaryear, codeModule }, { dataSources }) => {
-            return getMarks(KeyAuth, (await LoginUser(KeyAuth)).login, scolaryear, codeModule)
+        GetMarks: async (_, { KeyAuth }, { dataSources }) => {
+            return getMarks(KeyAuth, (await LoginUser(KeyAuth)).login)
         },
         GetPlanning: async (_, { KeyAuth }, { dataSources }) => {
             return getPlanning(KeyAuth);

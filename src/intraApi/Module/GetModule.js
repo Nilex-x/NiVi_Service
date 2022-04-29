@@ -161,7 +161,7 @@ module.exports = {
         const url = `${process.env.API_INTRA}/${KeyAuth}/module/${scolaryear}/${codemodule}/${codeinstance}?&format=json`;
         const response = await fetch(url)
         const data = await response.json()
-        console.log(data.activites[0])
+        // console.log(data.activites[0])
         const projectDetail = {
             title: data.title,
             end_register: data.end_register,

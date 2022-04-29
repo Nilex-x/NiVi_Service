@@ -14,6 +14,7 @@ const typeDefs = gql`
         scolaryear: String!,
         location: String!,
         course: String!
+        averageLogTime: Float!
     }
 
     type User {
@@ -250,14 +251,15 @@ const typeDefs = gql`
         comment: String
     }
 
-    type MarksReturn {
-        module: [MarkModules!],
-        marks: [Marks!]
+    type ModuleMarks {
+        semester: String!
+        notes: [Marks]!
+        modules: [MarkModules]!
     }
 
     type Query {
         Login(KeyAuth: String!): User!
-        GetMarks(KeyAuth: String!, scolaryear: String, codeModule: String): MarksReturn!
+        GetMarks(KeyAuth: String!): [ModuleMarks]!
         GetAllModule(KeyAuth: String!, start: String!, end: String!): [Module]!
         GetModuleDetail(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!): moduleDetail!
         GetActiDetail(KeyAuth: String!, scolaryear: String!, codemodule: String!, codeinstance: String!, codeActi: String): ActiType!
